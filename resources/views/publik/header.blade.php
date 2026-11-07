@@ -4,7 +4,7 @@
     </a>
 
     <nav class="pub-nav" aria-label="{{ __('publik.main_nav') }}">
-        @foreach(['menu' => 'home', 'dashboard' => 'building', 'papan.index' => 'board'] as $rute => $kunci)
+        @foreach(['menu' => 'home', 'cari.index' => 'find', 'dashboard' => 'building', 'papan.index' => 'board'] as $rute => $kunci)
             <a href="{{ $rute === 'dashboard' ? route('dashboard', 'ruangan') : route($rute) }}"
                @if(request()->routeIs($rute)) aria-current="page" @endif>{{ __('publik.nav.' . $kunci) }}</a>
         @endforeach
