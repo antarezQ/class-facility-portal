@@ -42,6 +42,7 @@
         <a class="pub-pelat" href="{{ route('menu') }}" aria-label="{{ __('publik.logo_label') }}">
             <span class="pub-merek">@ikon('building-2', 24)<b>{{ config('jadwal.nama_pendek') }}</b></span>
         </a>
+        <div class="pub-board-lang">@include('publik.bahasa')</div>
         <div class="pub-board-judul">
             <h1>{{ __('publik.board.heading', ['day' => now()->translatedFormat('l')]) }}</h1>
             <p>

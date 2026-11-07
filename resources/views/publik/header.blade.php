@@ -9,4 +9,6 @@
                @if(request()->routeIs($rute)) aria-current="page" @endif>{{ __('publik.nav.' . $kunci) }}</a>
         @endforeach
     </nav>
+
+    @include('publik.bahasa')
 </header>
