@@ -6,6 +6,8 @@ use App\Models\Dosen;
 use App\Models\Gedung;
 use App\Models\Jadwal;
 use App\Models\MataKuliah;
+use App\Models\Pengajuan;
+use App\Models\PenutupanRuangan;
 use App\Models\Periode;
 use App\Models\Ruangan;
 use Illuminate\Database\Seeder;
@@ -49,6 +51,7 @@ class DatabaseSeeder extends Seeder
 
             $ruangans = $this->buatRuangan();
             $this->buatJadwal($periode, $ruangans);
+            $this->buatPemakaianHariIni($periode, $ruangans);
         });
     }
 
@@ -120,5 +123,26 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+    }
+
+    /** Satu reservasi dan satu penutupan, supaya labelnya terlihat di Timeline. */
+    private function buatPemakaianHariIni(Periode $periode, array $ruangans): void
+    {
+        Pengajuan::create([
+            'nomor' => 'RSV-000001', 'jenis' => 'ruangan', 'periode_id' => $periode->id,
+            'nama' => 'Sample Applicant', 'peran' => 'Lainnya', 'kontak' => '+62 800-0000-0000',
+            'tanggal' => now()->toDateString(), 'hari' => now()->dayOfWeekIso - 1,
+            'menit_mulai' => 1080, 'menit_selesai' => 1170,
+            'jam_mulai' => '18:00:00', 'jam_selesai' => '19:30:00',
+            'ruangan_id' => $ruangans[0]->id, 'jumlah_peserta' => 25,
+            'keperluan' => 'Student club meeting', 'status' => 'disetujui',
+        ]);
+
+        PenutupanRuangan::create([
+            'ruangan_id' => end($ruangans)->id,
+            'tanggal_mulai' => now()->toDateString(),
+            'tanggal_selesai' => now()->addDays(7)->toDateString(),
+            'alasan' => 'Projector maintenance',
+        ]);
     }
 }

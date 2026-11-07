@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,6 +43,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Pembantu tampilan halaman publik: @ikon('search', 20) dan @pesan($teks).
+        Blade::directive('ikon', fn ($arg) => "<?php echo \\App\\Support\\Ikon::svg({$arg}); ?>");
+        Blade::directive('pesan', fn ($arg) => "<?php echo e(\\App\\Support\\TerjemahPesan::teks({$arg})); ?>");
     }
 }
