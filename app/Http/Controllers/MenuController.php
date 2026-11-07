@@ -18,6 +18,13 @@ class MenuController extends Controller
                 'siap'   => true,
             ],
             [
+                'judul'  => 'Pinjam Aset',
+                'teks'   => 'Pinjam proyektor, mikrofon, kabel, dan perlengkapan lain',
+                'tautan' => route('aset.pinjam'),
+                'ikon'   => 'box',
+                'siap'   => true,
+            ],
+            [
                 'judul'  => 'Dashboard Gedung',
                 'teks'   => 'Daftar ruangan, jadwal perkuliahan, dan timeline ruangan',
                 'tautan' => route('dashboard', 'ruangan'),

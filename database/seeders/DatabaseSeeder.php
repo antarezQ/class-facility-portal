@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\AsetUnit;
 use App\Models\Dosen;
 use App\Models\Gedung;
 use App\Models\Jadwal;
+use App\Models\KategoriAset;
 use App\Models\MataKuliah;
 use App\Models\Pengajuan;
 use App\Models\PenutupanRuangan;
@@ -39,6 +41,24 @@ class DatabaseSeeder extends Seeder
     /** Jam mulai dan selesai dalam menit. */
     private const SESI = [[510, 630], [630, 750], [810, 930], [930, 1050]];
 
+    /** [kode kategori, nama barang, jumlah unit, merek]. */
+    private const BARANG = [
+        ['HDMI', 'HDMI Cable', 12, null],
+        ['HDMIW', 'Wireless HDMI', 6, null],
+        ['RAC', 'AC Remote', 8, null],
+        ['RPR', 'Projector Remote', 8, null],
+        ['CHDMI', 'HDMI Connector', 6, null],
+        ['PTR', 'Presentation Pointer', 5, null],
+        ['SMD', 'Screen Mirroring Device', 4, null],
+        ['WCAM', 'Webcam', 3, 'OBSBOT'],
+        ['MLV', 'Lavalier Microphone', 6, null],
+        ['SPL', 'HDMI Splitter', 3, 'Vention'],
+        ['STK', 'Power Strip', 10, null],
+        ['SPK', 'Portable Speaker', 3, null],
+        ['PJR', 'Projector', 4, 'InFocus'],
+        ['CAM', 'Camera', 2, null],
+    ];
+
     public function run(): void
     {
         DB::transaction(function () {
@@ -52,6 +72,7 @@ class DatabaseSeeder extends Seeder
             $ruangans = $this->buatRuangan();
             $this->buatJadwal($periode, $ruangans);
             $this->buatPemakaianHariIni($periode, $ruangans);
+            $this->buatBarang();
         });
     }
 
@@ -144,5 +165,24 @@ class DatabaseSeeder extends Seeder
             'tanggal_selesai' => now()->addDays(7)->toDateString(),
             'alasan' => 'Projector maintenance',
         ]);
+    }
+
+    private function buatBarang(): void
+    {
+        foreach (self::BARANG as [$kode, $nama, $jumlah, $merek]) {
+            $kategori = KategoriAset::create(['kode' => $kode, 'nama' => $nama]);
+
+            for ($i = 1; $i <= $jumlah; $i++) {
+                AsetUnit::create([
+                    'kategori_aset_id' => $kategori->id,
+                    'kode' => sprintf('AST-%s%03d', $kode, $i),
+                    'nama' => $nama,
+                    'merek' => $merek,
+                    'kondisi' => 'baik',
+                    'status' => 'aktif',
+                    'boleh_pinjam' => true,
+                ]);
+            }
+        }
     }
 }
