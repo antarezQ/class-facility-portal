@@ -54,6 +54,24 @@ Home, rooms with what is happening now and next, and room search results:
 
 ![Phone layouts](docs/screenshots/mobile.jpg)
 
+## Staff panel (private)
+
+Office staff use a separate panel to approve requests, run equipment loans, and manage rooms and schedules. Its code stays in the private repository because it handles student and lecturer data, but this is how it looks, using the same sample data. The panel is in Indonesian, the language the staff work in.
+
+| Home: what needs a decision now | Room requests: clash check, plus free rooms that fit the group |
+|---|---|
+| ![Staff home page](docs/screenshots/staff-overview.jpg) | ![Room request approval](docs/screenshots/staff-requests.jpg) |
+
+| Class reschedules: each session decided on its own | Equipment loans: one step at a time per item, with photo evidence |
+|---|---|
+| ![Reschedule approval](docs/screenshots/staff-reschedule.jpg) | ![Equipment loan handling](docs/screenshots/staff-loans.jpg) |
+
+- **Three-way clash checks:** a reschedule is checked against the room, the lecturer, and the class group, so a free room alone is not enough.
+- **Suggested rooms:** for a clashing room request, free rooms that fit the group are listed. Clicking one writes it into the note that goes to the applicant over WhatsApp.
+- **Loan safeguards:** one unit cannot be approved for two people on overlapping dates, and handover and return each need a photo.
+- **Accountability:** each decision records which staff member made it and when.
+- **Login protection:** failed logins are limited per email and IP, and the error message does not reveal which part was wrong.
+
 ## Engineering notes
 
 - **Privacy by default:** public pages use an allowlist of fields, so applicant names, contacts, staff IDs, request numbers, and reservation purposes never reach the browser, not even in the page source. Automated tests cover this.
@@ -87,7 +105,7 @@ php artisan test
 
 ## What is not included
 
-The original app also has a staff panel for approving requests, managing rooms and schedules, importing data, tracking loans with photo evidence, and viewing analytics. Those parts are not in this repository, and neither is any real schedule, room, lecturer, or student data.
+The staff panel shown above, including schedule import, room and asset management, and analytics, is not in this repository, and neither is any real schedule, room, lecturer, or student data.
 
 Since the staff panel is left out, requests sent in this version are saved but have no one to approve them.
 
